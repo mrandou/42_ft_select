@@ -6,7 +6,7 @@
 #    By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/23 13:35:24 by mrandou           #+#    #+#              #
-#    Updated: 2020/01/23 18:15:57 by mrandou          ###   ########.fr        #
+#    Updated: 2020/01/27 14:49:23 by mrandou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ INC				=	$(addprefix $(INC_DIR), $(INC_NAME))
 
 INC_DEPEND		= 	$(INC)
 
-FILES			=	ft_select.c init_set_attribute.c\
+FILES			=	ft_select.c init_set_attribute.c line_edition.c\
+					check_error.c print.c
 
 SRC_PATH		= ./src/
 
@@ -67,11 +68,10 @@ clean:
 	@rm -rf	$(OBJ)
 	@rmdir	$(OBJ) 2> /dev/null || true
 	@make -C $(LIBFT) clean
-	@printf "All ---> \033[31mclean Done ✓\n\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(LIBNAME)
-	@printf "All ---> \033[31mfclean Done ✓\n\033[0m"
+	@make -C $(LIBFT) fclean
 
 re: fclean all
