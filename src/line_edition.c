@@ -6,50 +6,43 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:50:19 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/27 17:46:21 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/28 16:53:29 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_select.h"
 
-int line_edition_read(int fd)
+int line_edition_read(struct s_select *slt_struct)
 {
 	char	buff[4];
 
 	ft_bzero(buff, 4);
-	if (read(fd, buff, 4) == ERROR)
+	if (read(slt_struct->fd, buff, 4) == ERROR)
 		return (ER_READ);
-	if (line_edition_execute(line_edition_check(buff)))
+	if (exec_main(slt_struct, line_edition_check(buff)))
 		return (ER_EXEC);
 	return (SUCCESS);
 }
 
 int	line_edition_check(char buff[])
 {
-	if (!ft_strcmp(buff, TC_UP))
+	if (!ft_strcmp(buff, TCA_UP))
 		return (UP);
-	else if (!ft_strcmp(buff, TC_DOWN))
+	else if (!ft_strcmp(buff, TCA_DOWN))
 		return (DOWN);
-	else if (!ft_strcmp(buff, TC_RIGHT))
+	else if (!ft_strcmp(buff, TCA_RIGHT))
 		return (RIGHT);
-	else if (!ft_strcmp(buff, TC_LEFT))
+	else if (!ft_strcmp(buff, TCA_LEFT))
 		return (LEFT);
-	else if (!ft_strcmp(buff, TC_DEL))
+	else if (!ft_strcmp(buff, TCA_DEL))
 		return (DEL);
-	else if (buff[0] == TC_BACKSPACE)
+	else if (buff[0] == TCA_BACKSPACE)
 		return (BACKSPACE);
-	else if (buff[0] == TC_ESCAPE && !buff[1])
+	else if (buff[0] == TCA_ESCAPE && !buff[1])
 		return (ESCAPE);
-	else if (buff[0] == TC_SPACE)
+	else if (buff[0] == TCA_SPACE)
 		return (SPACE);
-	else if (buff[0] == TC_RETURN)
+	else if (buff[0] == TCA_RETURN)
 		return (RETURN);
 	return (UNKNOWN);
-}
-
-int	line_edition_execute(int action)
-{
-	if (action == ESCAPE)
-		return (ESCAPE);
-	return (SUCCESS);
 }

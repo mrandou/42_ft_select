@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:06:32 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/27 17:36:05 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/28 13:23:20 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,9 @@ int		check_error(int value)
 		ft_putendl_fd("ft_select: INITIALIZATION Error", 2);
 	if (value == ER_RESET)
 		ft_putendl_fd("ft_select: RESET Error", 2);
+	if (value == ER_NOTERM)
+		ft_putendl_fd("ft_select: Fail to load TERM configuration", 2);
+	if (value == ER_LIST)
+		ft_putendl_fd("ft_select: FATAL ERROR", 2);
 	return (value);
 }

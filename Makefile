@@ -6,7 +6,7 @@
 #    By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/23 13:35:24 by mrandou           #+#    #+#              #
-#    Updated: 2020/01/27 14:49:23 by mrandou          ###   ########.fr        #
+#    Updated: 2020/01/28 16:50:18 by mrandou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ INC				=	$(addprefix $(INC_DIR), $(INC_NAME))
 
 INC_DEPEND		= 	$(INC)
 
-FILES			=	ft_select.c init_set_attribute.c line_edition.c\
-					check_error.c print.c
+FILES			=	ft_select.c init.c line_edition.c execution.c\
+					check_error.c print.c list_arg.c
 
 SRC_PATH		= ./src/
 
