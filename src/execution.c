@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:52:46 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 17:02:30 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/28 17:50:43 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,53 @@ int		exec_main(struct s_select *slt_struct, int action)
 {
 	if (action == ESCAPE)
 		return (ESCAPE);
-	// if (action == RIGHT || action == LEFT)
-	// 	exec_lr_motion(slt_struct, action);
 	if (action == RIGHT)
-	{
-		slt_struct->current++;
-		if (slt_struct->current > slt_struct->max)
-			slt_struct->current = 0;
-	}
+		exec_motion_right(slt_struct);
 	if (action == LEFT)
+		exec_motion_left(slt_struct);
+	if (action == SPACE)
+		slt_struct->arg_list->selected = !slt_struct->arg_list->selected;
+	if (action == DEL || action == BACKSPACE)
 	{
-		slt_struct->current--;
-		if (slt_struct->current < 0)
-			slt_struct->current = slt_struct->max;
+		slt_struct->arg_list->deleted = 1;
+		slt_struct->nb_delete++;
+		if (slt_struct->nb_delete == slt_struct->max + 1)
+			return (ESCAPE);
+		exec_motion_right(slt_struct);
 	}
 	return (SUCCESS);
 }
 
-void	exec_lr_motion(t_select *slt_struct, int motion)
+void	exec_motion_right(t_select *slt_struct)
 {
-	(void)motion;
-	(void)slt_struct;
-	// if (motion == RIGHT)
-	// {
-	// 	if (slt_struct->arg_list->next)
-	// 		slt_struct->arg_list = slt_struct->arg_list->next;
-	// 	while (slt_struct->arg_list->deleted && slt_struct->arg_list)
-	// 	{
-	// 		slt_struct->arg_list = slt_struct->arg_list->next;
-			
-	// 	}
+	if (slt_struct->arg_list->next)
+		slt_struct->arg_list = slt_struct->arg_list->next;
+	else
+		slt_struct->arg_list = slt_struct->head;
+	while (slt_struct->arg_list->deleted && slt_struct->arg_list)
+	{
+		slt_struct->arg_list = slt_struct->arg_list->next;
+		if (!slt_struct->arg_list->next)
+			slt_struct->arg_list = slt_struct->head;
+		if (slt_struct->arg_list->id == slt_struct->current)
+			return ;
+	}
+	slt_struct->current = slt_struct->arg_list->id;
+}
 
-	// }
-	// else
-	// {
-		
-	// }
-	
+void	exec_motion_left(t_select *slt_struct)
+{
+	if (slt_struct->arg_list->prev)
+		slt_struct->arg_list = slt_struct->arg_list->prev;
+	else
+		slt_struct->arg_list = slt_struct->tail;
+	while (slt_struct->arg_list->deleted && slt_struct->arg_list)
+	{
+		slt_struct->arg_list = slt_struct->arg_list->prev;
+		if (!slt_struct->arg_list->prev)
+			slt_struct->arg_list = slt_struct->tail;
+		if (slt_struct->arg_list->id == slt_struct->current)
+			return ;
+	}
+	slt_struct->current = slt_struct->arg_list->id;
 }

@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 16:58:51 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/28 17:51:37 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define TCA_RETURN			'\012'
 # define TCA_SELECT			"\033[100m"
 # define TCA_UNDERLINED		"\033[4m"
+# define TCA_SELECT_UNDER	"\033[100m\033[4m"
 # define TCA_OFF			"\033[0m"
 
 # define TC_GO_LEFT			"le"
@@ -93,9 +94,11 @@ typedef struct		s_select
 {
 	t_arglist	*arg_list;
 	t_arglist	*head;
+	t_arglist	*tail;
 	int			fd;
 	int			current;
 	int			max;
+	int			nb_delete;
 }					t_select;
 
 int		ft_select(struct s_select *slt_struct);
@@ -104,11 +107,12 @@ int		init_set_attribute(struct termios *backup);
 int		init_reset_attribute(struct termios backup, int fd);
 int		init_termcap();
 
-int		line_edition_read(struct s_select *slt_struct);
-int		line_edition_check(char buff[]);
+int		line_read(struct s_select *slt_struct);
+int		line_check(char buff[]);
 
 int		exec_main(struct s_select *slt_struct, int action);
-void	exec_lr_motion(struct s_select *slt_struct, int motion);
+void	exec_motion_right(struct s_select *slt_struct);
+void	exec_motion_left(struct s_select *slt_struct);
 
 int		check_error(int value);
 

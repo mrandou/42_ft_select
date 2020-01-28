@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:35:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 14:57:40 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/28 17:51:45 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_select(t_select *slt_struct)
 	while (42)
 	{
 		print_list(slt_struct);
-		if ((error = line_edition_read(slt_struct)))
+		if ((error = line_read(slt_struct)))
 		{
 			if (init_reset_attribute(backup, slt_struct->fd))
 				return (ER_RESET);

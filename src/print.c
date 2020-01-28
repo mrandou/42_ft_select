@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 16:45:30 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/28 17:57:02 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,20 @@ void		print_list(t_select *slt_struct)
 	slt_struct->arg_list = slt_struct->head;
 	while (slt_struct->arg_list)
 	{
-		if (slt_struct->current == slt_struct->arg_list->id)
-			print_str(slt_struct->arg_list->content, TCA_UNDERLINED, fd);
-		else
+		if (slt_struct->current == slt_struct->arg_list->id
+		 && !slt_struct->arg_list->deleted)
+		{
+			if (slt_struct->arg_list->selected)
+				print_str(slt_struct->arg_list->content, TCA_SELECT_UNDER, fd);
+			else
+				print_str(slt_struct->arg_list->content, TCA_UNDERLINED, fd);
+		}
+		else if (slt_struct->arg_list->selected
+		 && !slt_struct->arg_list->deleted)
+			print_str(slt_struct->arg_list->content, TCA_SELECT, fd);
+		else if (!slt_struct->arg_list->deleted)
 			ft_putstr_fd(slt_struct->arg_list->content, fd);
-		if (slt_struct->arg_list->next)
+		if (slt_struct->arg_list->next && !slt_struct->arg_list->deleted)
 			ft_putchar_fd(' ', slt_struct->fd);
 		slt_struct->arg_list = slt_struct->arg_list->next;
 	}

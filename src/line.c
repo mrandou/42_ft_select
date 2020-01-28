@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_edition.c                                     :+:      :+:    :+:   */
+/*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:50:19 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 16:53:29 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/28 17:52:01 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_select.h"
 
-int line_edition_read(struct s_select *slt_struct)
+int line_read(struct s_select *slt_struct)
 {
 	char	buff[4];
 
 	ft_bzero(buff, 4);
 	if (read(slt_struct->fd, buff, 4) == ERROR)
 		return (ER_READ);
-	if (exec_main(slt_struct, line_edition_check(buff)))
+	if (exec_main(slt_struct, line_check(buff)))
 		return (ER_EXEC);
 	return (SUCCESS);
 }
 
-int	line_edition_check(char buff[])
+int	line_check(char buff[])
 {
 	if (!ft_strcmp(buff, TCA_UP))
 		return (UP);
