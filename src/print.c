@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 17:57:02 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/29 13:55:42 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ void		print_list(t_select *slt_struct)
 		 && !slt_struct->arg_list->deleted)
 			print_str(slt_struct->arg_list->content, TCA_SELECT, fd);
 		else if (!slt_struct->arg_list->deleted)
-			ft_putstr_fd(slt_struct->arg_list->content, fd);
-		if (slt_struct->arg_list->next && !slt_struct->arg_list->deleted)
-			ft_putchar_fd(' ', slt_struct->fd);
+			ft_putendl_fd(slt_struct->arg_list->content, fd);
 		slt_struct->arg_list = slt_struct->arg_list->next;
 	}
 	list_set_current_pos(slt_struct);
@@ -45,7 +43,7 @@ static int	print_char(int c)
 {
 	if (!c)
 		return (ERROR);
-	ft_putchar(c);
+	ft_putchar_fd(c, 0);
 	return (c);
 }
 
@@ -70,6 +68,6 @@ int			print_termcap(char *str, int nb)
 void	print_str(char *str, char *type, int fd)
 {
 	ft_putstr_fd(type, fd);
-	ft_putstr_fd(str, fd);
+	ft_putendl_fd(str, fd);
 	ft_putstr_fd(TCA_OFF, fd);
 }

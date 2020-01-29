@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:06:32 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 13:23:20 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/29 11:54:30 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ int		check_error(int value)
 {
 	if (value == ER_READ)
 		ft_putendl_fd("ft_select: READ Error", 2);
-	if (value == ER_EXEC)
+	else if (value == ER_EXEC)
 		ft_putendl_fd("ft_select: EXECUTION Error", 2);
-	if (value == ER_INIT)
+	else if (value == ER_INIT)
 		ft_putendl_fd("ft_select: INITIALIZATION Error", 2);
-	if (value == ER_RESET)
+	else if (value == ER_RESET)
 		ft_putendl_fd("ft_select: RESET Error", 2);
-	if (value == ER_NOTERM)
+	else if (value == ER_NOTERM)
 		ft_putendl_fd("ft_select: Fail to load TERM configuration", 2);
-	if (value == ER_LIST)
+	else if (value == ER_LIST)
 		ft_putendl_fd("ft_select: FATAL ERROR", 2);
+	else if (value == ESCAPE)
+		return (SUCCESS);
 	return (value);
 }

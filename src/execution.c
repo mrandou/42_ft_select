@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:52:46 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 17:50:43 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/29 13:53:32 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 int		exec_main(struct s_select *slt_struct, int action)
 {
+	if (action == RETURN)
+		return (RETURN);
 	if (action == ESCAPE)
 		return (ESCAPE);
-	if (action == RIGHT)
+	if (action == RIGHT || action == DOWN)
 		exec_motion_right(slt_struct);
-	if (action == LEFT)
+	if (action == LEFT || action == UP)
 		exec_motion_left(slt_struct);
 	if (action == SPACE)
+	{
 		slt_struct->arg_list->selected = !slt_struct->arg_list->selected;
+		exec_motion_right(slt_struct);
+	}
 	if (action == DEL || action == BACKSPACE)
 	{
 		slt_struct->arg_list->deleted = 1;
@@ -41,9 +46,10 @@ void	exec_motion_right(t_select *slt_struct)
 		slt_struct->arg_list = slt_struct->head;
 	while (slt_struct->arg_list->deleted && slt_struct->arg_list)
 	{
-		slt_struct->arg_list = slt_struct->arg_list->next;
 		if (!slt_struct->arg_list->next)
 			slt_struct->arg_list = slt_struct->head;
+		else
+			slt_struct->arg_list = slt_struct->arg_list->next;
 		if (slt_struct->arg_list->id == slt_struct->current)
 			return ;
 	}
@@ -58,9 +64,10 @@ void	exec_motion_left(t_select *slt_struct)
 		slt_struct->arg_list = slt_struct->tail;
 	while (slt_struct->arg_list->deleted && slt_struct->arg_list)
 	{
-		slt_struct->arg_list = slt_struct->arg_list->prev;
 		if (!slt_struct->arg_list->prev)
 			slt_struct->arg_list = slt_struct->tail;
+		else
+			slt_struct->arg_list = slt_struct->arg_list->prev;
 		if (slt_struct->arg_list->id == slt_struct->current)
 			return ;
 	}
