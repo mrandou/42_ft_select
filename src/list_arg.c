@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:48:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 17:17:28 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/31 18:13:38 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,20 @@
 int	list_create(t_select *slt_struct, char **arg)
 {
 	int	i;
+	int	len;
 
 	i = 1;
+	len = 0;
+	slt_struct->arg_list = NULL;
+	slt_struct->max_len = 0;
 	while (arg[i])
-		if (list_push(&slt_struct->arg_list, arg[i++]))
+	{
+		if (list_push(&slt_struct->arg_list, arg[i]))
 			return (FAILURE);
+		if ((len = ft_strlen(arg[i])) > slt_struct->max_len)
+			slt_struct->max_len = len;
+		i++;
+	}
 	slt_struct->max = slt_struct->arg_list->id;
 	slt_struct->tail = slt_struct->arg_list;
 	while (slt_struct->arg_list->prev)

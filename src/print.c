@@ -6,34 +6,70 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/29 13:55:42 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/31 20:14:10 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_select.h"
 
-void		print_list(t_select *slt_struct)
+int			print_by_id(t_select *slt_struct, int id)
 {
-	int	fd;
+	t_arglist	*tmp;
 
-	fd = slt_struct->fd;
-	print_termcap(TC_CLEAR, 1);
+	tmp = slt_struct->arg_list;
 	slt_struct->arg_list = slt_struct->head;
 	while (slt_struct->arg_list)
 	{
-		if (slt_struct->current == slt_struct->arg_list->id
-		 && !slt_struct->arg_list->deleted)
+		if (slt_struct->arg_list->id == id)
 		{
-			if (slt_struct->arg_list->selected)
-				print_str(slt_struct->arg_list->content, TCA_SELECT_UNDER, fd);
-			else
-				print_str(slt_struct->arg_list->content, TCA_UNDERLINED, fd);
+			print_select(slt_struct, 1);
+			ft_putchar_fd(' ', slt_struct->fd);
+			slt_struct->arg_list = tmp;
+			return (SUCCESS);
 		}
-		else if (slt_struct->arg_list->selected
-		 && !slt_struct->arg_list->deleted)
-			print_str(slt_struct->arg_list->content, TCA_SELECT, fd);
-		else if (!slt_struct->arg_list->deleted)
-			ft_putendl_fd(slt_struct->arg_list->content, fd);
+		slt_struct->arg_list = slt_struct->arg_list->next;
+	}
+	slt_struct->arg_list = tmp;
+	return (FAILURE);
+}
+
+int			print_column(t_select *slt_struct)
+{
+	struct winsize	w;
+	int				id;
+
+	id = 0;
+	ioctl(0, TIOCGWINSZ, &w);
+	if ((slt_struct->max - slt_struct->nb_delete) > w.ws_row)
+	{
+		while (slt_struct->arg_list && slt_struct->arg_list->id < w.ws_row)
+		{
+			while (!print_by_id(slt_struct, id))
+				id += w.ws_row;
+			slt_struct->arg_list = slt_struct->arg_list->next;
+			if (slt_struct->arg_list->id < w.ws_row)
+			{
+				ft_putchar_fd('\n', slt_struct->fd);
+				id = slt_struct->arg_list->id;
+			}
+		}
+		return (1);
+	}
+	return (0);
+}
+
+void		print_list(t_select *slt_struct)
+{
+	print_termcap(TC_CLEAR, 1);
+	slt_struct->arg_list = slt_struct->head;
+	if (print_column(slt_struct))
+	{
+		list_set_current_pos(slt_struct);
+		return ;
+	}
+	while (slt_struct->arg_list)
+	{
+		print_select(slt_struct, 0);
 		slt_struct->arg_list = slt_struct->arg_list->next;
 	}
 	list_set_current_pos(slt_struct);
@@ -65,9 +101,46 @@ int			print_termcap(char *str, int nb)
 	return (SUCCESS);
 }
 
-void	print_str(char *str, char *type, int fd)
+void		print_select(t_select *slt_struct, int col)
 {
-	ft_putstr_fd(type, fd);
-	ft_putendl_fd(str, fd);
-	ft_putstr_fd(TCA_OFF, fd);
+	int	fd;
+
+	fd = slt_struct->fd;
+	if (slt_struct->current == slt_struct->arg_list->id)
+	{
+		if (slt_struct->arg_list->selected)
+			print_str(slt_struct, TCA_SELECT_UNDER, col);
+		else
+			print_str(slt_struct, TCA_UNDERLINED, col);
+	}
+	else if (slt_struct->arg_list->selected
+		&& !slt_struct->arg_list->deleted)
+		print_str(slt_struct, TCA_SELECT, col);
+	else if (!slt_struct->arg_list->deleted)
+	{
+		if (!col)
+			ft_putendl_fd(slt_struct->arg_list->content, fd);
+		else
+			print_str(slt_struct, NULL, col);
+	}
+}
+
+void	print_str(t_select *slt_struct, char *type, int col)
+{
+	int	spaces;
+
+	spaces = 0;
+	if (type)
+		ft_putstr_fd(type, slt_struct->fd);
+	ft_putstr_fd(slt_struct->arg_list->content, slt_struct->fd);
+	ft_putstr_fd(TCA_OFF, slt_struct->fd);
+	if (col)
+	{
+		spaces = slt_struct->max_len
+		 - ft_strlen(slt_struct->arg_list->content) + 1;
+		while (spaces--)
+			ft_putchar_fd(' ', slt_struct->fd);
+	}
+	if (!col)
+		ft_putchar_fd('\n', slt_struct->fd);
 }

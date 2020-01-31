@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 18:14:29 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/28 17:43:37 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/31 11:41:02 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,6 @@ int	init_termcap()
 			return (FAILURE);
 	}
 	else if (tgetent(NULL, term) < 1)
-		return (FAILURE);
-	return (SUCCESS);
-}
-
-int	init_struct(struct s_select *slt_struct, char **arg_list)
-{
-	slt_struct->nb_delete = 0;
-	if (list_create(slt_struct, arg_list))
 		return (FAILURE);
 	return (SUCCESS);
 }

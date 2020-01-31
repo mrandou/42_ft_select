@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:52:46 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/29 13:53:32 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/31 19:57:34 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,7 @@ int		exec_main(struct s_select *slt_struct, int action)
 		exec_motion_right(slt_struct);
 	}
 	if (action == DEL || action == BACKSPACE)
-	{
-		slt_struct->arg_list->deleted = 1;
-		slt_struct->nb_delete++;
-		if (slt_struct->nb_delete == slt_struct->max + 1)
-			return (ESCAPE);
-		exec_motion_right(slt_struct);
-	}
+		return (exec_delete(slt_struct));
 	return (SUCCESS);
 }
 
@@ -72,4 +66,24 @@ void	exec_motion_left(t_select *slt_struct)
 			return ;
 	}
 	slt_struct->current = slt_struct->arg_list->id;
+}
+
+int		exec_delete(t_select *slt_struct)
+{
+	t_arglist *tmp;
+
+	slt_struct->arg_list->deleted = 1;
+	slt_struct->arg_list->id *= -1;
+	slt_struct->nb_delete++;
+	if (slt_struct->nb_delete > slt_struct->max)
+		return (ESCAPE);
+	tmp = slt_struct->arg_list;
+	while (slt_struct->arg_list)
+	{
+		slt_struct->arg_list->id -= 1;
+		slt_struct->arg_list = slt_struct->arg_list->next;
+	}
+	slt_struct->arg_list = tmp;
+	exec_motion_right(slt_struct);
+	return (SUCCESS);
 }

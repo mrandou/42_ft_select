@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/29 11:45:03 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/01/31 18:23:52 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <termios.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/ioctl.h>
 # include <fcntl.h>
 # include <curses.h>
 # include <term.h>
@@ -99,6 +100,7 @@ typedef struct		s_select
 	int			current;
 	int			max;
 	int			nb_delete;
+	int			max_len;
 }					t_select;
 
 int		ft_select(struct s_select *slt_struct);
@@ -113,12 +115,14 @@ int		line_check(char buff[]);
 int		exec_main(struct s_select *slt_struct, int action);
 void	exec_motion_right(struct s_select *slt_struct);
 void	exec_motion_left(struct s_select *slt_struct);
+int		exec_delete(struct s_select *slt_struct);
 
 int		check_error(int value);
 
 void	print_list(struct s_select *slt_struct);
 int		print_termcap(char *str, int nb);
-void	print_str(char *str, char *type, int fd);
+void	print_select(struct s_select *slt_struct, int col);
+void	print_str(struct s_select *slt_struct, char *type, int col);
 
 int		list_create(struct s_select *slt_struct, char **arg);
 int		list_push(struct s_arglist **arglist, char *content);
