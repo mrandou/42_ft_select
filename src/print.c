@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/31 20:14:10 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/03 15:39:55 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,20 @@ int			print_by_id(t_select *slt_struct, int id)
 
 int			print_column(t_select *slt_struct)
 {
-	struct winsize	w;
 	int				id;
 
 	id = 0;
-	ioctl(0, TIOCGWINSZ, &w);
-	if ((slt_struct->max - slt_struct->nb_delete) > w.ws_row)
+	ioctl(0, TIOCGWINSZ, &slt_struct->window);
+	if ((slt_struct->max - slt_struct->nb_delete) >= slt_struct->window.ws_row)
 	{
-		while (slt_struct->arg_list && slt_struct->arg_list->id < w.ws_row)
+		while (slt_struct->arg_list
+		 && slt_struct->arg_list->id < slt_struct->window.ws_row)
 		{
 			while (!print_by_id(slt_struct, id))
-				id += w.ws_row;
+				id += slt_struct->window.ws_row;
 			slt_struct->arg_list = slt_struct->arg_list->next;
-			if (slt_struct->arg_list->id < w.ws_row)
+			if (slt_struct->arg_list->id < slt_struct->window.ws_row
+			 && !slt_struct->arg_list->deleted)
 			{
 				ft_putchar_fd('\n', slt_struct->fd);
 				id = slt_struct->arg_list->id;
@@ -118,8 +119,11 @@ void		print_select(t_select *slt_struct, int col)
 		print_str(slt_struct, TCA_SELECT, col);
 	else if (!slt_struct->arg_list->deleted)
 	{
-		if (!col)
+		if (!col && slt_struct->arg_list->id
+		 < slt_struct->max - slt_struct->nb_delete)
 			ft_putendl_fd(slt_struct->arg_list->content, fd);
+		else if (!col)
+			ft_putstr_fd(slt_struct->arg_list->content, fd);
 		else
 			print_str(slt_struct, NULL, col);
 	}
@@ -141,6 +145,7 @@ void	print_str(t_select *slt_struct, char *type, int col)
 		while (spaces--)
 			ft_putchar_fd(' ', slt_struct->fd);
 	}
-	if (!col)
+	if (!col && slt_struct->arg_list->id
+		 < slt_struct->max - slt_struct->nb_delete)
 		ft_putchar_fd('\n', slt_struct->fd);
 }

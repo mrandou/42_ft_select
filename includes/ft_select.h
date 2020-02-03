@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/31 18:23:52 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/03 15:58:50 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@
 # define CUR_ON				"\033[?25h"
 # define CUR_OFF			"\033[?25l"
 
+# define CLR_RED			"\033[31m"
+# define CLR_GREEN			"\033[32m"
+
 # define DEFAULT_TERM		"xterm-256color"
 
 typedef	enum		e_termnum
@@ -93,14 +96,15 @@ typedef	struct		s_arglist
 
 typedef struct		s_select
 {
-	t_arglist	*arg_list;
-	t_arglist	*head;
-	t_arglist	*tail;
-	int			fd;
-	int			current;
-	int			max;
-	int			nb_delete;
-	int			max_len;
+	t_arglist		*arg_list;
+	t_arglist		*head;
+	t_arglist		*tail;
+	struct winsize	window;
+	int				fd;
+	int				current;
+	int				max;
+	int				nb_delete;
+	int				max_len;
 }					t_select;
 
 int		ft_select(struct s_select *slt_struct);
@@ -113,8 +117,10 @@ int		line_read(struct s_select *slt_struct);
 int		line_check(char buff[]);
 
 int		exec_main(struct s_select *slt_struct, int action);
-void	exec_motion_right(struct s_select *slt_struct);
-void	exec_motion_left(struct s_select *slt_struct);
+void	exec_motion_down(struct s_select *slt_struct);
+void	exec_motion_up(struct s_select *slt_struct);
+void	exec_motion_right(t_select *slt_struct);
+void	exec_motion_left(t_select *slt_struct);
 int		exec_delete(struct s_select *slt_struct);
 
 int		check_error(int value);
@@ -128,5 +134,6 @@ int		list_create(struct s_select *slt_struct, char **arg);
 int		list_push(struct s_arglist **arglist, char *content);
 void	list_free(struct s_arglist *arglist);
 void	list_set_current_pos(t_select *slt_struct);
+int		list_id_position(t_select *slt_struct, int id);
 
 #endif

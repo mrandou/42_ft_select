@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:48:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/31 18:13:38 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/03 15:57:16 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,16 @@ void	list_set_current_pos(t_select *slt_struct)
 			return ;
 		slt_struct->arg_list = slt_struct->arg_list->next;
 	}
+}
+
+int		list_id_position(t_select *slt_struct, int id)
+{
+	slt_struct->arg_list = slt_struct->head;
+	while (slt_struct->arg_list)
+	{
+		if (slt_struct->arg_list->id == id)
+			return (SUCCESS);
+		slt_struct->arg_list = slt_struct->arg_list->next;
+	}
+	return (FAILURE);
 }
