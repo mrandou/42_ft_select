@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/03 15:58:50 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/04 14:11:36 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,33 +107,37 @@ typedef struct		s_select
 	int				max_len;
 }					t_select;
 
-int		ft_select(struct s_select *slt_struct);
+int			ft_select(struct s_select *slt_struct);
+t_select	*get_struct(t_select *slt_struct);
 
-int		init_set_attribute(struct termios *backup);
-int		init_reset_attribute(struct termios backup, int fd);
-int		init_termcap();
+int			init_set_attribute(struct termios *backup);
+int			init_reset_attribute(struct termios backup, int fd);
+int			init_termcap();
 
-int		line_read(struct s_select *slt_struct);
-int		line_check(char buff[]);
+int			line_read(struct s_select *slt_struct);
+int			line_check(char buff[]);
 
-int		exec_main(struct s_select *slt_struct, int action);
-void	exec_motion_down(struct s_select *slt_struct);
-void	exec_motion_up(struct s_select *slt_struct);
-void	exec_motion_right(t_select *slt_struct);
-void	exec_motion_left(t_select *slt_struct);
-int		exec_delete(struct s_select *slt_struct);
+int			exec_main(struct s_select *slt_struct, int action);
+void		exec_motion_down(struct s_select *slt_struct);
+void		exec_motion_up(struct s_select *slt_struct);
+void		exec_motion_right(t_select *slt_struct);
+void		exec_motion_left(t_select *slt_struct);
+int			exec_delete(struct s_select *slt_struct);
 
-int		check_error(int value);
+int			check_error(int value);
 
-void	print_list(struct s_select *slt_struct);
-int		print_termcap(char *str, int nb);
-void	print_select(struct s_select *slt_struct, int col);
-void	print_str(struct s_select *slt_struct, char *type, int col);
+void		print_list(struct s_select *slt_struct);
+int			print_termcap(char *str, int nb);
+void		print_select(struct s_select *slt_struct, int col);
+void		print_str(struct s_select *slt_struct, char *type, int col);
 
-int		list_create(struct s_select *slt_struct, char **arg);
-int		list_push(struct s_arglist **arglist, char *content);
-void	list_free(struct s_arglist *arglist);
-void	list_set_current_pos(t_select *slt_struct);
-int		list_id_position(t_select *slt_struct, int id);
+int			list_create(struct s_select *slt_struct, char **arg);
+int			list_push(struct s_arglist **arglist, char *content);
+void		list_free(struct s_arglist *arglist);
+void		list_set_current_pos(t_select *slt_struct);
+int			list_id_position(t_select *slt_struct, int id);
+
+void		signal_init();
+void		signal_window(int signum);
 
 #endif
