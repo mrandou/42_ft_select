@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:35:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/04 14:13:24 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/06 13:58:36 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,29 @@
 
 int	ft_select(t_select *slt_struct)
 {
-	struct termios	backup;
 	int				key;
 
 	if (init_termcap())
 		return (ER_NOTERM);
-	if ((slt_struct->fd = init_set_attribute(&backup)) == ERROR)
+	if ((slt_struct->fd = init_set_attribute(&slt_struct->backup)) == ERROR)
 		return (ER_INIT);
 	while (42)
 	{
 		print_list(slt_struct);
 		if ((key = line_read(slt_struct)) == FAILURE)
 		{
-			if (init_reset_attribute(backup, slt_struct->fd))
+			if (init_reset_attribute(slt_struct))
 				return (ER_RESET);
 			return (ER_READ);
 		}
 		if ((key = exec_main(slt_struct, key)) != SUCCESS)
 		{
-			if (init_reset_attribute(backup, slt_struct->fd))
+			if (init_reset_attribute(slt_struct))
 				return (ER_RESET);
 			return (key);
 		}
 	}
-	if (init_reset_attribute(backup, slt_struct->fd))
+	if (init_reset_attribute(slt_struct))
 		return (ER_RESET);
 	return (FAILURE);
 }

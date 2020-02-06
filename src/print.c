@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/03 15:39:55 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/06 12:39:18 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int			print_column(t_select *slt_struct)
 
 	id = 0;
 	ioctl(0, TIOCGWINSZ, &slt_struct->window);
+	if (((slt_struct->max - slt_struct->nb_delete) / slt_struct->window.ws_row) * (slt_struct->max_len + 6) > slt_struct->window.ws_col)
+	{
+		ft_putstr_fd("Window size is too small", slt_struct->fd);
+		return (1);
+	}
 	if ((slt_struct->max - slt_struct->nb_delete) >= slt_struct->window.ws_row)
 	{
 		while (slt_struct->arg_list

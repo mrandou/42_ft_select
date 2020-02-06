@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 18:14:29 by mrandou           #+#    #+#             */
-/*   Updated: 2020/01/31 11:41:02 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/06 14:16:35 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	init_set_attribute(struct termios *backup)
 	if ((fd = open(ttyname(STDIN_FILENO), O_RDWR)) == ERROR)
 		return (ERROR);
 	*backup = s_set;
-	s_set.c_lflag &= ~(ICANON | ECHO | ISIG);
+	s_set.c_lflag &= ~(ICANON | ECHO);
 	ft_putstr_fd(ALTSCREEN_ON, fd);
 	ft_putstr_fd(CUR_OFF, fd);
 	if (tcsetattr(fd, 0, &s_set))
@@ -31,12 +31,12 @@ int	init_set_attribute(struct termios *backup)
 	return (fd);
 }
 
-int	init_reset_attribute(struct termios backup, int fd)
+int	init_reset_attribute(t_select *slt_struct)
 {
-	ft_putstr_fd(ALTSCREEN_OFF, fd);
-	ft_putstr_fd(CUR_ON, fd);
-	close(fd);
-	if (tcsetattr(STDIN_FILENO, 0, &backup))
+	ft_putstr_fd(CUR_ON, slt_struct->fd);
+	ft_putstr_fd(ALTSCREEN_OFF, slt_struct->fd);
+	close(slt_struct->fd);
+	if (tcsetattr(STDIN_FILENO, 0, &slt_struct->backup))
 		return (FAILURE);
 	return (SUCCESS);
 }

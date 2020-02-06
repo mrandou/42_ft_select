@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/04 14:11:36 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/06 14:15:50 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct		s_select
 	t_arglist		*arg_list;
 	t_arglist		*head;
 	t_arglist		*tail;
+	struct termios	backup;
 	struct winsize	window;
 	int				fd;
 	int				current;
@@ -111,7 +112,7 @@ int			ft_select(struct s_select *slt_struct);
 t_select	*get_struct(t_select *slt_struct);
 
 int			init_set_attribute(struct termios *backup);
-int			init_reset_attribute(struct termios backup, int fd);
+int			init_reset_attribute(struct s_select *slt_struct);
 int			init_termcap();
 
 int			line_read(struct s_select *slt_struct);
@@ -139,5 +140,7 @@ int			list_id_position(t_select *slt_struct, int id);
 
 void		signal_init();
 void		signal_window(int signum);
+void		signal_tstp(int signum);
+void		signal_cont(int signum);
 
 #endif
