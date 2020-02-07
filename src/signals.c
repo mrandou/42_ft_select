@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 14:08:59 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/06 17:08:07 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/07 15:11:14 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	signal_init()
 {
 	signal(SIGWINCH, signal_window);
-	signal(SIGTSTP, signal_tstp);
+	signal(SIGTSTP, signal_stop);
 	signal(SIGCONT, signal_cont);
+	signal(SIGINT, signal_exit);
+	signal(SIGTERM, signal_exit);
+	signal(SIGQUIT, signal_exit);
 }
 
 void	signal_window(int signum)
@@ -32,7 +35,7 @@ void	signal_window(int signum)
 	}
 }
 
-void	signal_tstp(int signum)
+void	signal_stop(int signum)
 {
 	t_select	*tmp;
 	char		control[2];
@@ -42,8 +45,7 @@ void	signal_tstp(int signum)
 		tmp = get_struct(NULL);;
 		if (!tmp)
 			return;
-		init_reset_attribute(tmp);
-		get_struct(tmp);
+		exit_reset_attribute(tmp);
 		control[0] = tmp->backup.c_cc[VSUSP];
 		control[1] = 0;
 		signal(SIGTSTP, SIG_DFL);
@@ -60,9 +62,14 @@ void	signal_cont(int signum)
 		tmp = get_struct(NULL);
 		if (!tmp)
 			return;
-		init_set_attribute(&tmp->backup);
-		get_struct(tmp);
-		signal(SIGTSTP, signal_tstp);
+		init_set_attribute(tmp);
+		signal(SIGTSTP, signal_stop);
 		print_list(tmp);
 	}
+}
+
+void	signal_exit(int signum)
+{
+	if (signum == SIGTERM || signum == SIGINT || signum == SIGQUIT)
+		exit_shutdown(SUCCESS);
 }

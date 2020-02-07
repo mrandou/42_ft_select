@@ -6,7 +6,7 @@
 #    By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/23 13:35:24 by mrandou           #+#    #+#              #
-#    Updated: 2020/02/04 14:11:52 by mrandou          ###   ########.fr        #
+#    Updated: 2020/02/07 13:42:17 by mrandou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INC				=	$(addprefix $(INC_DIR), $(INC_NAME))
 INC_DEPEND		= 	$(INC)
 
 FILES			=	ft_select.c init.c line.c execution.c\
-					check_error.c print.c list_arg.c signals.c
+					exit.c print.c list_arg.c signals.c
 
 SRC_PATH		= ./src/
 

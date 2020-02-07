@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/06 14:15:50 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/07 14:06:18 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,12 @@ typedef struct		s_select
 int			ft_select(struct s_select *slt_struct);
 t_select	*get_struct(t_select *slt_struct);
 
-int			init_set_attribute(struct termios *backup);
-int			init_reset_attribute(struct s_select *slt_struct);
+int			init_set_attribute(struct s_select *slt_struct);
 int			init_termcap();
+
+int			exit_reset_attribute(struct s_select *slt_struct);
+int			exit_check_error(int value);
+void		exit_shutdown(int error);
 
 int			line_read(struct s_select *slt_struct);
 int			line_check(char buff[]);
@@ -125,7 +128,6 @@ void		exec_motion_right(t_select *slt_struct);
 void		exec_motion_left(t_select *slt_struct);
 int			exec_delete(struct s_select *slt_struct);
 
-int			check_error(int value);
 
 void		print_list(struct s_select *slt_struct);
 int			print_termcap(char *str, int nb);
@@ -140,7 +142,8 @@ int			list_id_position(t_select *slt_struct, int id);
 
 void		signal_init();
 void		signal_window(int signum);
-void		signal_tstp(int signum);
+void		signal_stop(int signum);
 void		signal_cont(int signum);
+void		signal_exit(int signum);
 
 #endif
