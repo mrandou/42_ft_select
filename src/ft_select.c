@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:35:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 14:48:45 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/07 16:47:56 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	put_selection(t_select *slt_struct)
 		}
 		slt_struct->arg_list = slt_struct->arg_list->next;
 	}
+	slt_struct->arg_list = slt_struct->head;
 }
 
 t_select	*get_struct(t_select *slt_struct)
@@ -82,7 +83,9 @@ int main(int argc, char **argv)
 	if (return_value == RETURN)
 	{
 		put_selection(&slt_struct);
+		list_free(slt_struct.arg_list);
 		return (SUCCESS);
 	}
+	list_free(slt_struct.arg_list);
 	return (exit_check_error(return_value));
 }

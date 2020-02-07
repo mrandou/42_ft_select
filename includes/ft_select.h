@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 14:06:18 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/07 17:43:44 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ void		exec_motion_right(t_select *slt_struct);
 void		exec_motion_left(t_select *slt_struct);
 int			exec_delete(struct s_select *slt_struct);
 
-
 void		print_list(struct s_select *slt_struct);
 int			print_termcap(char *str, int nb);
 void		print_select(struct s_select *slt_struct, int col);
@@ -145,5 +144,8 @@ void		signal_window(int signum);
 void		signal_stop(int signum);
 void		signal_cont(int signum);
 void		signal_exit(int signum);
+
+//A DELETE
+void	debug_print_struct(t_select *slt_struct);
 
 #endif

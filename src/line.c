@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:50:19 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 13:23:17 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/07 16:48:31 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int line_read(struct s_select *slt_struct)
 {
-	char	buff[5];
+	char	buff[8];
 
-	ft_bzero(buff, 5);
+	ft_bzero(buff, 8);
 	get_struct(slt_struct);
 	if (read(slt_struct->fd, buff, 4) == ERROR)
 		return (ER_READ);
