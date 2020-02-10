@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:52:46 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 16:44:21 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 18:00:21 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	exec_motion_lr(t_select *slt_struct, int motion)
 		list_head_tail(slt_struct, TAIL);
 	else
 		list_head_tail(slt_struct, HEAD);
-
 }
 
 void	exec_motion_down(t_select *slt_struct)

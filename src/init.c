@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 18:14:29 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:37:44 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 17:58:11 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	init_set_attribute(t_select *slt_struct)
 		return (ERROR);
 	ft_putstr_fd(CUR_OFF, slt_struct->fd);
 	ft_putstr_fd(ALTSCREEN_ON, slt_struct->fd);
-	print_termcap(TC_CLEAR, 1);
+	put_termcap(TC_CLEAR, 1);
 	return (SUCCESS);
 }
 

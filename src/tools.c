@@ -6,32 +6,11 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 11:24:30 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 16:13:21 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 17:58:30 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-void		put_selection(t_select *slt_struct)
-{
-	int	i;
-
-	i = 0;
-	slt_struct->arg_list = slt_struct->head;
-	while (slt_struct->arg_list)
-	{
-		if (!slt_struct->arg_list->deleted && slt_struct->arg_list->selected)
-		{
-			if (i)
-				ft_putchar(' ');
-			ft_putstr(slt_struct->arg_list->content);
-			i++;
-		}
-		slt_struct->arg_list = slt_struct->arg_list->next;
-	}
-	slt_struct->arg_list = slt_struct->head;
-	ft_putchar('\n');
-}
 
 t_select	*get_struct(t_select *slt_struct)
 {
@@ -44,7 +23,7 @@ t_select	*get_struct(t_select *slt_struct)
 	return (NULL);
 }
 
-int			print_char(int c)
+int			put_char(int c)
 {
 	if (!c)
 		return (ERROR);
@@ -52,7 +31,7 @@ int			print_char(int c)
 	return (c);
 }
 
-int			print_termcap(char *str, int nb)
+int			put_termcap(char *str, int nb)
 {
 	char	*termc;
 	int		i;
@@ -63,30 +42,9 @@ int			print_termcap(char *str, int nb)
 		return (FAILURE);
 	while (i < nb)
 	{
-		if (tputs(termc, 1, print_char))
+		if (tputs(termc, 1, put_char))
 			return (FAILURE);
 		i++;
 	}
 	return (SUCCESS);
-}
-
-int			print_by_id(t_select *slt_struct, int id)
-{
-	t_arglist	*tmp;
-
-	tmp = slt_struct->arg_list;
-	slt_struct->arg_list = slt_struct->head;
-	while (slt_struct->arg_list)
-	{
-		if (slt_struct->arg_list->id == id)
-		{
-			print_select(slt_struct, 1);
-			ft_putchar_fd(' ', slt_struct->fd);
-			slt_struct->arg_list = tmp;
-			return (SUCCESS);
-		}
-		slt_struct->arg_list = slt_struct->arg_list->next;
-	}
-	slt_struct->arg_list = tmp;
-	return (FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:35:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 16:42:45 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 17:58:50 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_select(t_select *slt_struct)
 		exit_shutdown(ER_INIT);
 	while (42)
 	{
-		print_list(slt_struct);
+		display_list(slt_struct);
 		if ((key = key_read(slt_struct)) == FAILURE)
 			exit_shutdown(ER_READ);
 		if ((key = exec_main(slt_struct, key)) != SUCCESS)
@@ -50,7 +50,7 @@ int	main(int argc, char **argv)
 	return_value = ft_select(&slt_struct);
 	if (return_value == RETURN)
 	{
-		put_selection(&slt_struct);
+		display_selection(&slt_struct);
 		exit_list_free(slt_struct.arg_list);
 		return (SUCCESS);
 	}

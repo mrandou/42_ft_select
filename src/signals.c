@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 14:08:59 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:36:14 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 17:54:54 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	signal_window(int signum)
 		tmp = get_struct(NULL);
 		if (!tmp)
 			return ;
-		print_list(tmp);
+		display_list(tmp);
 	}
 }
 
@@ -64,7 +64,7 @@ void	signal_cont(int signum)
 			return ;
 		init_set_attribute(tmp);
 		signal(SIGTSTP, signal_stop);
-		print_list(tmp);
+		display_list(tmp);
 	}
 }
 
