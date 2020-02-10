@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:42:47 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 16:57:25 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@
 # define FAILURE			1
 # define ERROR				-1
 
+# define HEAD				0
+# define TAIL				1
+
 # define TCA_UP				"\033[A"
 # define TCA_DOWN			"\033[B"
 # define TCA_RIGHT			"\033[C"
 # define TCA_LEFT			"\033[D"
 # define TCA_DEL			"\033[3~"
+# define TCA_HOME			"\033[H"
 # define TCA_BACKSPACE		'\177'
 # define TCA_ESCAPE			'\033'
 # define TCA_SPACE			'\040'
@@ -55,8 +59,11 @@
 # define CUR_ON				"\033[?25h"
 # define CUR_OFF			"\033[?25l"
 
+# define CLR_BOLD			"\033[1m"
 # define CLR_RED			"\033[31m"
 # define CLR_GREEN			"\033[32m"
+# define CLR_MAGENTA		"\033[35m"
+# define CLR_CYAN			"\033[36m"
 
 # define DEFAULT_TERM		"xterm-256color"
 
@@ -71,6 +78,8 @@ typedef	enum	e_termnum
 	BACKSPACE,
 	DEL,
 	RETURN,
+	TAB,
+	HOME,
 	UNKNOWN
 }				t_termnum;
 
@@ -85,12 +94,24 @@ typedef	enum	e_error
 	ER_WINDOW
 }				t_error;
 
+typedef	enum	e_type
+{
+	T_REG,
+	T_DIR,
+	T_CHR,
+	T_BLK,
+	T_FIFO,
+	T_LNK,
+	T_SOCK
+}				t_type;
+
 typedef	struct	s_arglist
 {
 	char					*content;
 	int						id;
 	int						selected;
 	int						deleted;
+	int						type;
 	struct s_arglist		*next;
 	struct s_arglist		*prev;
 }				t_arglist;
@@ -107,6 +128,8 @@ typedef struct	s_select
 	int						max;
 	int						nb_delete;
 	int						max_len;
+	int						win_small;
+	int						colors;
 }				t_select;
 
 int				ft_select(struct s_select *slt_struct);
@@ -117,6 +140,7 @@ int				init_termcap(void);
 int				exit_reset_attribute(struct s_select *slt_struct);
 int				exit_check_error(int value);
 void			exit_shutdown(int error);
+void			exit_list_free(struct s_arglist *arglist);
 
 int				key_read(struct s_select *slt_struct);
 int				key_check(char buff[]);
@@ -134,9 +158,9 @@ void			print_str(struct s_select *slt_struct, char *type, int col);
 
 int				list_create(struct s_select *slt_struct, char **arg);
 int				list_push(struct s_arglist **arglist, char *content);
-void			list_free(struct s_arglist *arglist);
-void			list_set_current_pos(t_select *slt_struct);
-int				list_id_position(t_select *slt_struct, int id);
+int				list_head_tail(struct s_select *slt_struct, int direction);
+int				list_id_position(struct s_select *slt_struct, int id);
+int				list_check_type(char *arg);
 
 void			signal_init(void);
 void			signal_window(int signum);

@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:48:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:36:45 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 17:00:15 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int		list_create(t_select *slt_struct, char **arg)
 	len = 0;
 	slt_struct->arg_list = NULL;
 	slt_struct->max_len = 0;
+	slt_struct->colors = 1;
+	slt_struct->win_small = 0;
 	while (arg[i])
 	{
 		len = ft_strlen(arg[i]);
-		if (len > 32)
-			arg[i][29] = '\0';
+		len > 32 ? arg[i][32] = '\0' : 0;
 		if (list_push(&slt_struct->arg_list, arg[i]))
 			return (FAILURE);
 		if ((len = ft_strlen(arg[i])) > slt_struct->max_len)
@@ -55,6 +56,7 @@ int		list_push(t_arglist **arglist, char *content)
 			free(newlist);
 		return (FAILURE);
 	}
+	newlist->type = list_check_type(content);
 	newlist->prev = *arglist;
 	newlist->next = NULL;
 	if (*arglist)
@@ -66,36 +68,31 @@ int		list_push(t_arglist **arglist, char *content)
 	return (SUCCESS);
 }
 
-void	list_free(t_arglist *arglist)
+int		list_head_tail(t_select *slt_struct, int direction)
 {
-	t_arglist	*tmp;
-
-	while (arglist->prev)
-		arglist = arglist->prev;
-	while (arglist)
+	if (direction == HEAD)
 	{
-		tmp = arglist->next;
-		if (arglist->content)
-			free(arglist->content);
-		if (arglist)
-			free(arglist);
-		arglist = tmp;
+		slt_struct->arg_list = slt_struct->head;
+		while (slt_struct->arg_list && slt_struct->arg_list->deleted)
+			slt_struct->arg_list = slt_struct->arg_list->next;
+		slt_struct->current = slt_struct->arg_list->id;
+		return (SUCCESS);
 	}
-}
-
-void	list_set_current_pos(t_select *slt_struct)
-{
-	slt_struct->arg_list = slt_struct->head;
-	while (slt_struct->arg_list)
+	else
 	{
-		if (slt_struct->arg_list->id == slt_struct->current)
-			return ;
-		slt_struct->arg_list = slt_struct->arg_list->next;
+		slt_struct->arg_list = slt_struct->tail;
+		while (slt_struct->arg_list && slt_struct->arg_list->deleted)
+			slt_struct->arg_list = slt_struct->arg_list->prev;
+		slt_struct->current = slt_struct->arg_list->id;
+		return (SUCCESS);
 	}
+	return (FAILURE);
 }
 
 int		list_id_position(t_select *slt_struct, int id)
 {
+	if (id < 0)
+		return (FAILURE);
 	slt_struct->arg_list = slt_struct->head;
 	while (slt_struct->arg_list)
 	{
@@ -104,4 +101,25 @@ int		list_id_position(t_select *slt_struct, int id)
 		slt_struct->arg_list = slt_struct->arg_list->next;
 	}
 	return (FAILURE);
+}
+
+int		list_check_type(char *arg)
+{
+	char			*path;
+	char			*tmp;
+	struct stat		infos;
+
+	if (lstat(arg, &infos) == SUCCESS)
+		return (infos.st_mode);
+	if ((tmp = getenv("PWD")) == NULL)
+		return (ERROR);
+	if ((path = ft_strmjoin(tmp, "/", arg)) == NULL)
+		return (ERROR);
+	if (lstat(path, &infos) == -1)
+	{
+		ft_strdel(&path);
+		return (ERROR);
+	}
+	ft_strdel(&path);
+	return (infos.st_mode);
 }

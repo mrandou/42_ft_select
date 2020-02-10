@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:34:17 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 15:56:56 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ static int		check_window_size(t_select *slt_struct)
 	if ((((slt_struct->max - slt_struct->nb_delete) / slt_struct->window.ws_row)
 	+ 1) * (slt_struct->max_len + 3) > slt_struct->window.ws_col)
 	{
+		slt_struct->win_small = 1;
 		ft_putstr_fd("Window size is too small", slt_struct->fd);
 		return (FAILURE);
 	}
+	slt_struct->win_small = 0;
 	return (SUCCESS);
 }
 
@@ -59,7 +61,7 @@ void			print_list(t_select *slt_struct)
 	slt_struct->arg_list = slt_struct->head;
 	if (print_column(slt_struct))
 	{
-		list_set_current_pos(slt_struct);
+		list_id_position(slt_struct, slt_struct->current);
 		return ;
 	}
 	while (slt_struct->arg_list)
@@ -67,7 +69,7 @@ void			print_list(t_select *slt_struct)
 		print_select(slt_struct, 0);
 		slt_struct->arg_list = slt_struct->arg_list->next;
 	}
-	list_set_current_pos(slt_struct);
+	list_id_position(slt_struct, slt_struct->current);
 }
 
 void			print_select(t_select *slt_struct, int col)
@@ -86,15 +88,7 @@ void			print_select(t_select *slt_struct, int col)
 		&& !slt_struct->arg_list->deleted)
 		print_str(slt_struct, TCA_SELECT, col);
 	else if (!slt_struct->arg_list->deleted)
-	{
-		if (!col && slt_struct->arg_list->id
-		< slt_struct->max - slt_struct->nb_delete)
-			ft_putendl_fd(slt_struct->arg_list->content, fd);
-		else if (!col)
-			ft_putstr_fd(slt_struct->arg_list->content, fd);
-		else
-			print_str(slt_struct, NULL, col);
-	}
+		print_str(slt_struct, NULL, col);
 }
 
 void			print_str(t_select *slt_struct, char *type, int col)
@@ -102,6 +96,14 @@ void			print_str(t_select *slt_struct, char *type, int col)
 	int	spaces;
 
 	spaces = 0;
+	if (slt_struct->colors)
+	{
+		slt_struct->arg_list->type & S_IEXEC ? ft_putstr(CLR_RED) : NULL;
+		S_ISDIR(slt_struct->arg_list->type) ? ft_putstr(CLR_CYAN) : NULL;
+		S_ISREG(slt_struct->arg_list->type) ? ft_putstr(CLR_BOLD) : NULL;
+		S_ISCHR(slt_struct->arg_list->type) ? ft_putstr(CLR_GREEN) : NULL;
+		S_ISLNK(slt_struct->arg_list->type) ? ft_putstr(CLR_MAGENTA) : NULL;
+	}
 	if (type)
 		ft_putstr_fd(type, slt_struct->fd);
 	ft_putstr_fd(slt_struct->arg_list->content, slt_struct->fd);

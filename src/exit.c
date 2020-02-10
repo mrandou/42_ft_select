@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 13:44:52 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:07:02 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 16:42:48 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exit_shutdown(int error)
 	tmp = get_struct(NULL);
 	if (tmp)
 	{
-		list_free(tmp->arg_list);
+		exit_list_free(tmp->arg_list);
 		if (error != ER_NOTERM)
 			if (exit_reset_attribute(tmp))
 				exit(ER_RESET);
@@ -58,4 +58,21 @@ int		exit_check_error(int value)
 	else if (value == ESCAPE)
 		return (SUCCESS);
 	return (value);
+}
+
+void	exit_list_free(t_arglist *arglist)
+{
+	t_arglist	*tmp;
+
+	while (arglist->prev)
+		arglist = arglist->prev;
+	while (arglist)
+	{
+		tmp = arglist->next;
+		if (arglist->content)
+			free(arglist->content);
+		if (arglist)
+			free(arglist);
+		arglist = tmp;
+	}
 }

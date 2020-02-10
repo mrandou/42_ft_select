@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:50:19 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:37:28 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 16:05:58 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,16 @@ int	key_check(char buff[])
 {
 	if (!ft_strcmp(buff, TCA_UP))
 		return (UP);
+	else if (buff[0] == '\t')
+		return (TAB);
 	else if (!ft_strcmp(buff, TCA_DOWN))
 		return (DOWN);
 	else if (!ft_strcmp(buff, TCA_RIGHT))
 		return (RIGHT);
 	else if (!ft_strcmp(buff, TCA_LEFT))
 		return (LEFT);
+	else if (!ft_strcmp(buff, TCA_HOME))
+		return (HOME);
 	else if (!ft_strcmp(buff, TCA_DEL))
 		return (DEL);
 	else if (buff[0] == TCA_BACKSPACE)

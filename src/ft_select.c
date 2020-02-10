@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 13:35:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:39:13 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 16:42:45 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	main(int argc, char **argv)
 	if (return_value == RETURN)
 	{
 		put_selection(&slt_struct);
-		list_free(slt_struct.arg_list);
+		exit_list_free(slt_struct.arg_list);
 		return (SUCCESS);
 	}
-	list_free(slt_struct.arg_list);
+	exit_list_free(slt_struct.arg_list);
 	return (exit_check_error(return_value));
 }

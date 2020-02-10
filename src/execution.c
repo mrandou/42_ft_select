@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:52:46 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 13:12:19 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 16:44:21 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@ int		exec_main(struct s_select *slt_struct, int action)
 		return (RETURN);
 	if (action == ESCAPE)
 		return (ESCAPE);
+	if (slt_struct->win_small)
+		return (SUCCESS);
 	if (action == DOWN)
 		exec_motion_down(slt_struct);
 	if (action == UP)
 		exec_motion_up(slt_struct);
 	if (action == LEFT || action == RIGHT)
 		exec_motion_lr(slt_struct, action);
+	if (action == HOME)
+		list_head_tail(slt_struct, HEAD);
 	if (action == SPACE)
 	{
 		slt_struct->arg_list->selected = !slt_struct->arg_list->selected;
@@ -31,6 +35,8 @@ int		exec_main(struct s_select *slt_struct, int action)
 	}
 	if (action == DEL || action == BACKSPACE)
 		return (exec_delete(slt_struct));
+	if (action == TAB)
+		slt_struct->colors = !slt_struct->colors;
 	return (SUCCESS);
 }
 
@@ -45,15 +51,10 @@ void	exec_motion_lr(t_select *slt_struct, int motion)
 	if (!list_id_position(slt_struct, new))
 		slt_struct->current = slt_struct->arg_list->id;
 	else if (motion == LEFT)
-	{
-		slt_struct->arg_list = slt_struct->tail;
-		slt_struct->current = slt_struct->arg_list->id;
-	}
+		list_head_tail(slt_struct, TAIL);
 	else
-	{
-		slt_struct->arg_list = slt_struct->head;
-		slt_struct->current = slt_struct->arg_list->id;
-	}
+		list_head_tail(slt_struct, HEAD);
+
 }
 
 void	exec_motion_down(t_select *slt_struct)
