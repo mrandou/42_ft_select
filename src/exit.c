@@ -6,11 +6,11 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 13:44:52 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 14:47:40 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 13:07:02 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_select.h"
+#include "ft_select.h"
 
 void	exit_shutdown(int error)
 {
@@ -53,6 +53,8 @@ int		exit_check_error(int value)
 		ft_putendl_fd("ft_select: Fail to load TERM configuration", 2);
 	else if (value == ER_LIST)
 		ft_putendl_fd("ft_select: FATAL ERROR", 2);
+	else if (value == ER_WINDOW)
+		ft_putendl_fd("ft_select: WINDOW ERROR", 2);
 	else if (value == ESCAPE)
 		return (SUCCESS);
 	return (value);

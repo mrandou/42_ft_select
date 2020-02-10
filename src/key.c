@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line.c                                             :+:      :+:    :+:   */
+/*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:50:19 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 16:48:31 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 13:37:28 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_select.h"
 
-int line_read(struct s_select *slt_struct)
+int	key_read(struct s_select *slt_struct)
 {
 	char	buff[8];
 
@@ -20,10 +20,10 @@ int line_read(struct s_select *slt_struct)
 	get_struct(slt_struct);
 	if (read(slt_struct->fd, buff, 4) == ERROR)
 		return (ER_READ);
-	return (line_check(buff));
+	return (key_check(buff));
 }
 
-int	line_check(char buff[])
+int	key_check(char buff[])
 {
 	if (!ft_strcmp(buff, TCA_UP))
 		return (UP);

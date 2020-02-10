@@ -6,13 +6,13 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:48:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/06 13:08:32 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 13:36:45 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_select.h"
+#include "ft_select.h"
 
-int	list_create(t_select *slt_struct, char **arg)
+int		list_create(t_select *slt_struct, char **arg)
 {
 	int	i;
 	int	len;
@@ -25,7 +25,7 @@ int	list_create(t_select *slt_struct, char **arg)
 	{
 		len = ft_strlen(arg[i]);
 		if (len > 32)
-			arg[i][29]='\0';
+			arg[i][29] = '\0';
 		if (list_push(&slt_struct->arg_list, arg[i]))
 			return (FAILURE);
 		if ((len = ft_strlen(arg[i])) > slt_struct->max_len)
@@ -40,7 +40,7 @@ int	list_create(t_select *slt_struct, char **arg)
 	return (SUCCESS);
 }
 
-int	list_push(t_arglist **arglist, char *content)
+int		list_push(t_arglist **arglist, char *content)
 {
 	t_arglist *newlist;
 

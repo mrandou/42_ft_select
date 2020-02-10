@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 17:43:44 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 13:42:47 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # include <curses.h>
 # include <term.h>
 
-# define SUCCESS	0
-# define FAILURE	1
-# define ERROR		-1
+# define SUCCESS			0
+# define FAILURE			1
+# define ERROR				-1
 
 # define TCA_UP				"\033[A"
 # define TCA_DOWN			"\033[B"
@@ -60,7 +60,7 @@
 
 # define DEFAULT_TERM		"xterm-256color"
 
-typedef	enum		e_termnum
+typedef	enum	e_termnum
 {
 	UP = 2,
 	DOWN,
@@ -72,80 +72,82 @@ typedef	enum		e_termnum
 	DEL,
 	RETURN,
 	UNKNOWN
-}					t_termnum;
+}				t_termnum;
 
-typedef	enum		e_error
+typedef	enum	e_error
 {
 	ER_READ = 100,
 	ER_EXEC,
 	ER_INIT,
 	ER_RESET,
 	ER_NOTERM,
-	ER_LIST
-}					t_error;
+	ER_LIST,
+	ER_WINDOW
+}				t_error;
 
-typedef	struct		s_arglist
+typedef	struct	s_arglist
 {
-	char				*content;
-	int					id;
-	int					selected;
-	int					deleted;
-	struct s_arglist	*next;
-	struct s_arglist	*prev;
-}					t_arglist;
+	char					*content;
+	int						id;
+	int						selected;
+	int						deleted;
+	struct s_arglist		*next;
+	struct s_arglist		*prev;
+}				t_arglist;
 
-typedef struct		s_select
+typedef struct	s_select
 {
-	t_arglist		*arg_list;
-	t_arglist		*head;
-	t_arglist		*tail;
-	struct termios	backup;
-	struct winsize	window;
-	int				fd;
-	int				current;
-	int				max;
-	int				nb_delete;
-	int				max_len;
-}					t_select;
+	t_arglist				*arg_list;
+	t_arglist				*head;
+	t_arglist				*tail;
+	struct termios			backup;
+	struct winsize			window;
+	int						fd;
+	int						current;
+	int						max;
+	int						nb_delete;
+	int						max_len;
+}				t_select;
 
-int			ft_select(struct s_select *slt_struct);
-t_select	*get_struct(t_select *slt_struct);
+int				ft_select(struct s_select *slt_struct);
 
-int			init_set_attribute(struct s_select *slt_struct);
-int			init_termcap();
+int				init_set_attribute(struct s_select *slt_struct);
+int				init_termcap(void);
 
-int			exit_reset_attribute(struct s_select *slt_struct);
-int			exit_check_error(int value);
-void		exit_shutdown(int error);
+int				exit_reset_attribute(struct s_select *slt_struct);
+int				exit_check_error(int value);
+void			exit_shutdown(int error);
 
-int			line_read(struct s_select *slt_struct);
-int			line_check(char buff[]);
+int				key_read(struct s_select *slt_struct);
+int				key_check(char buff[]);
 
-int			exec_main(struct s_select *slt_struct, int action);
-void		exec_motion_down(struct s_select *slt_struct);
-void		exec_motion_up(struct s_select *slt_struct);
-void		exec_motion_right(t_select *slt_struct);
-void		exec_motion_left(t_select *slt_struct);
-int			exec_delete(struct s_select *slt_struct);
+int				exec_main(struct s_select *slt_struct, int action);
+void			exec_motion_down(struct s_select *slt_struct);
+void			exec_motion_up(struct s_select *slt_struct);
+void			exec_motion_lr(t_select *slt_struct, int motion);
+int				exec_delete(struct s_select *slt_struct);
 
-void		print_list(struct s_select *slt_struct);
-int			print_termcap(char *str, int nb);
-void		print_select(struct s_select *slt_struct, int col);
-void		print_str(struct s_select *slt_struct, char *type, int col);
+int				print_column(struct s_select *slt_struct);
+void			print_list(struct s_select *slt_struct);
+void			print_select(struct s_select *slt_struct, int col);
+void			print_str(struct s_select *slt_struct, char *type, int col);
 
-int			list_create(struct s_select *slt_struct, char **arg);
-int			list_push(struct s_arglist **arglist, char *content);
-void		list_free(struct s_arglist *arglist);
-void		list_set_current_pos(t_select *slt_struct);
-int			list_id_position(t_select *slt_struct, int id);
+int				list_create(struct s_select *slt_struct, char **arg);
+int				list_push(struct s_arglist **arglist, char *content);
+void			list_free(struct s_arglist *arglist);
+void			list_set_current_pos(t_select *slt_struct);
+int				list_id_position(t_select *slt_struct, int id);
 
-void		signal_init();
-void		signal_window(int signum);
-void		signal_stop(int signum);
-void		signal_cont(int signum);
-void		signal_exit(int signum);
+void			signal_init(void);
+void			signal_window(int signum);
+void			signal_stop(int signum);
+void			signal_cont(int signum);
+void			signal_exit(int signum);
 
-//A DELETE
-void	debug_print_struct(t_select *slt_struct);
+void			put_selection(struct s_select *slt_struct);
+t_select		*get_struct(struct s_select *slt_struct);
+int				print_char(int c);
+int				print_termcap(char *str, int nb);
+int				print_by_id(struct s_select *slt_struct, int id);
 
 #endif

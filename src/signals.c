@@ -6,13 +6,13 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 14:08:59 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 15:11:14 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 13:36:14 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_select.h"
+#include "ft_select.h"
 
-void	signal_init()
+void	signal_init(void)
 {
 	signal(SIGWINCH, signal_window);
 	signal(SIGTSTP, signal_stop);
@@ -28,9 +28,9 @@ void	signal_window(int signum)
 
 	if (signum == SIGWINCH)
 	{
-		tmp = get_struct(NULL);;
+		tmp = get_struct(NULL);
 		if (!tmp)
-			return;
+			return ;
 		print_list(tmp);
 	}
 }
@@ -42,9 +42,9 @@ void	signal_stop(int signum)
 
 	if (signum == SIGTSTP)
 	{
-		tmp = get_struct(NULL);;
+		tmp = get_struct(NULL);
 		if (!tmp)
-			return;
+			return ;
 		exit_reset_attribute(tmp);
 		control[0] = tmp->backup.c_cc[VSUSP];
 		control[1] = 0;
@@ -61,7 +61,7 @@ void	signal_cont(int signum)
 	{
 		tmp = get_struct(NULL);
 		if (!tmp)
-			return;
+			return ;
 		init_set_attribute(tmp);
 		signal(SIGTSTP, signal_stop);
 		print_list(tmp);

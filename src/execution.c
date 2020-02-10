@@ -6,11 +6,11 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:52:46 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/03 15:59:05 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 13:12:19 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_select.h"
+#include "ft_select.h"
 
 int		exec_main(struct s_select *slt_struct, int action)
 {
@@ -22,10 +22,8 @@ int		exec_main(struct s_select *slt_struct, int action)
 		exec_motion_down(slt_struct);
 	if (action == UP)
 		exec_motion_up(slt_struct);
-	if (action == RIGHT)
-		exec_motion_right(slt_struct);
-	if (action == LEFT)
-		exec_motion_left(slt_struct);
+	if (action == LEFT || action == RIGHT)
+		exec_motion_lr(slt_struct, action);
 	if (action == SPACE)
 	{
 		slt_struct->arg_list->selected = !slt_struct->arg_list->selected;
@@ -36,29 +34,24 @@ int		exec_main(struct s_select *slt_struct, int action)
 	return (SUCCESS);
 }
 
-void	exec_motion_right(t_select *slt_struct)
+void	exec_motion_lr(t_select *slt_struct, int motion)
 {
 	int	new;
 
-	new = slt_struct->current + slt_struct->window.ws_row;
+	if (motion == LEFT)
+		new = slt_struct->current - slt_struct->window.ws_row;
+	else
+		new = slt_struct->current + slt_struct->window.ws_row;
 	if (!list_id_position(slt_struct, new))
 		slt_struct->current = slt_struct->arg_list->id;
+	else if (motion == LEFT)
+	{
+		slt_struct->arg_list = slt_struct->tail;
+		slt_struct->current = slt_struct->arg_list->id;
+	}
 	else
 	{
 		slt_struct->arg_list = slt_struct->head;
-		slt_struct->current = slt_struct->arg_list->id;
-	}
-}
-void	exec_motion_left(t_select *slt_struct)
-{
-	int	new;
-
-	new = slt_struct->current - slt_struct->window.ws_row;
-	if (!list_id_position(slt_struct, new))
-		slt_struct->current = slt_struct->arg_list->id;
-	else
-	{
-		slt_struct->arg_list = slt_struct->tail;
 		slt_struct->current = slt_struct->arg_list->id;
 	}
 }

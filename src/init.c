@@ -6,11 +6,11 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 18:14:29 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/07 15:15:12 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/10 13:37:44 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_select.h"
+#include "ft_select.h"
 
 int	init_set_attribute(t_select *slt_struct)
 {
@@ -30,7 +30,7 @@ int	init_set_attribute(t_select *slt_struct)
 	return (SUCCESS);
 }
 
-int	init_termcap()
+int	init_termcap(void)
 {
 	char	*term;
 
