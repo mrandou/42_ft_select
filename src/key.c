@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:50:19 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 16:05:58 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 10:28:53 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	key_check(char buff[])
 		return (LEFT);
 	else if (!ft_strcmp(buff, TCA_HOME))
 		return (HOME);
+	else if (!ft_strcmp(buff, TCA_END))
+		return (END);
 	else if (!ft_strcmp(buff, TCA_DEL))
 		return (DEL);
 	else if (buff[0] == TCA_BACKSPACE)

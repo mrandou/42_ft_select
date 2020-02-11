@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:52:46 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 18:00:21 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 10:32:54 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int		exec_main(struct s_select *slt_struct, int action)
 		exec_motion_up(slt_struct);
 	if (action == LEFT || action == RIGHT)
 		exec_motion_lr(slt_struct, action);
-	if (action == HOME)
-		list_head_tail(slt_struct, HEAD);
+	if (action == HOME || action == END)
+		list_head_tail(slt_struct, action);
 	if (action == SPACE)
 	{
 		slt_struct->arg_list->selected = !slt_struct->arg_list->selected;

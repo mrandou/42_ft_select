@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 17:58:56 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 10:28:49 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define TCA_LEFT			"\033[D"
 # define TCA_DEL			"\033[3~"
 # define TCA_HOME			"\033[H"
+# define TCA_END			"\033[F"
 # define TCA_BACKSPACE		'\177'
 # define TCA_ESCAPE			'\033'
 # define TCA_SPACE			'\040'
@@ -80,6 +81,7 @@ typedef	enum	e_termnum
 	RETURN,
 	TAB,
 	HOME,
+	END,
 	UNKNOWN
 }				t_termnum;
 

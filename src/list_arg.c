@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:48:22 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 17:24:45 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 10:33:15 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		list_push(t_arglist **arglist, char *content)
 
 int		list_head_tail(t_select *slt_struct, int direction)
 {
-	if (direction == HEAD)
+	if (direction == HEAD || direction == HOME)
 	{
 		slt_struct->arg_list = slt_struct->head;
 		while (slt_struct->arg_list && slt_struct->arg_list->deleted)
