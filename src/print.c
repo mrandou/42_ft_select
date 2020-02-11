@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/10 18:00:37 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 12:05:40 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,16 @@ void	print_select(t_select *slt_struct, int col)
 
 void	print_colors_type(t_select *slt_struct)
 {
+	int fd;
+
+	fd = slt_struct->fd;
 	if (slt_struct->colors)
 	{
-		slt_struct->arg_list->type & S_IEXEC ? ft_putstr(CLR_RED) : NULL;
-		S_ISDIR(slt_struct->arg_list->type) ? ft_putstr(CLR_CYAN) : NULL;
-		S_ISREG(slt_struct->arg_list->type) ? ft_putstr(CLR_BOLD) : NULL;
-		S_ISCHR(slt_struct->arg_list->type) ? ft_putstr(CLR_GREEN) : NULL;
-		S_ISLNK(slt_struct->arg_list->type) ? ft_putstr(CLR_MAGENTA) : NULL;
+		slt_struct->arg_list->type & S_IEXEC ? ft_putstr_fd(CLR_RED, fd) : NULL;
+		S_ISDIR(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_CYAN, fd) : NULL;
+		S_ISREG(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_BOLD, fd) : NULL;
+		S_ISCHR(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_GREEN, fd) : NULL;
+		S_ISLNK(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_MAGENTA, fd) : NULL;
 	}
 }
 

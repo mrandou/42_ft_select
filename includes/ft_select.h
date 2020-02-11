@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 15:09:05 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/11 10:28:49 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 11:53:58 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@
 # define CLR_BOLD			"\033[1m"
 # define CLR_RED			"\033[31m"
 # define CLR_GREEN			"\033[32m"
+# define CLR_YELLOW			"\033[33m"
 # define CLR_MAGENTA		"\033[35m"
 # define CLR_CYAN			"\033[36m"
 
