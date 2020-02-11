@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/11 12:05:40 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 12:52:35 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	print_colors_type(t_select *slt_struct)
 		slt_struct->arg_list->type & S_IEXEC ? ft_putstr_fd(CLR_RED, fd) : NULL;
 		S_ISDIR(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_CYAN, fd) : NULL;
 		S_ISREG(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_BOLD, fd) : NULL;
-		S_ISCHR(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_GREEN, fd) : NULL;
-		S_ISLNK(slt_struct->arg_list->type) ? ft_putstr_fd(CLR_MAGENTA, fd) : NULL;
+		S_ISCHR(slt_struct->arg_list->type)
+		? ft_putstr_fd(CLR_GREEN, fd) : NULL;
+		S_ISLNK(slt_struct->arg_list->type)
+		? ft_putstr_fd(CLR_MAGENTA, fd) : NULL;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mrandou <mrandou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:49:31 by mrandou           #+#    #+#             */
-/*   Updated: 2020/02/11 12:02:11 by mrandou          ###   ########.fr       */
+/*   Updated: 2020/02/11 12:55:46 by mrandou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static int		check_window_size(t_select *slt_struct)
 	+ 1) * (slt_struct->max_len + 3) > slt_struct->window.ws_col)
 	{
 		slt_struct->win_small = 1;
-		ft_putstr_fd(CLR_YELLOW CLR_BOLD
-		"Warning: The window is too small!\033[0m", slt_struct->fd);
+		ft_putstr_fd(CLR_YELLOW, slt_struct->fd);
+		ft_putstr_fd(CLR_BOLD, slt_struct->fd);
+		ft_putstr_fd("Warning: The window is too small!", slt_struct->fd);
+		ft_putstr_fd(TCA_OFF, slt_struct->fd);
 		return (FAILURE);
 	}
 	slt_struct->win_small = 0;
